@@ -2,9 +2,9 @@ package com.epam.learn.song.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +14,9 @@ import lombok.Setter;
 @Table(name = "song-metadata")
 public class SongMetadata {
     @Id
+    @GeneratedValue
     @Column(updatable = false, nullable = false)
-    private UUID id;
+    private Integer id;
     private String name;
     private String artist;
     private String album;

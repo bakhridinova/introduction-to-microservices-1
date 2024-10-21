@@ -3,7 +3,7 @@
 package com.epam.learn.resource.controller;
 
 import com.epam.learn.resource.dto.CreateResourceResponse;
-import com.epam.learn.resource.dto.ResourceResponse;
+import com.epam.learn.resource.dto.DeleteResourceBulkResponse;
 import com.epam.learn.resource.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,12 @@ public class ResourceController implements ResourceApi {
     }
 
     @Override
-    public ResponseEntity<ResourceResponse> getResource(String id) {
-        ResourceResponse resource = resourceService.getResourceById(id);
-        return new ResponseEntity<>(resource, HttpStatus.OK);
+    public ResponseEntity<byte[]> getResource(String id) {
+        return new ResponseEntity<>(resourceService.getResourceById(id), HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<Void> deleteResources(String ids) {
-        resourceService.deleteResources(ids);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<DeleteResourceBulkResponse> deleteResourceBulk(String ids) {
+        return new ResponseEntity<>(resourceService.deleteResources(ids), HttpStatus.OK);
     }
 }

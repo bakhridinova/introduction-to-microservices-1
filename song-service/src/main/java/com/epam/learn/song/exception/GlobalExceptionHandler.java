@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
         ErrorResponse error = ErrorResponse.create(
             ex,
             HttpStatus.INTERNAL_SERVER_ERROR,
-            ex.getMessage()
+            "Something went wrong."
         );
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

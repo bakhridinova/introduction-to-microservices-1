@@ -3,7 +3,7 @@
 package com.epam.learn.resource.controller;
 
 import com.epam.learn.resource.dto.CreateResourceResponse;
-import com.epam.learn.resource.dto.ResourceResponse;
+import com.epam.learn.resource.dto.DeleteResourceBulkResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,7 +25,7 @@ public interface ResourceApi {
         summary = "Create a new resource", responses = {
         @ApiResponse(
             description = "ID of created resource", responseCode = "200",
-            content = @Content(schema = @Schema(implementation = ResourceResponse.class))
+            content = @Content(schema = @Schema(implementation = CreateResourceResponse.class))
         ),
         @ApiResponse(description = "Bad request if validation fails", responseCode = "400")
     }
@@ -39,12 +39,12 @@ public interface ResourceApi {
         summary = "Get a resource by ID", responses = {
         @ApiResponse(
             description = "The resource", responseCode = "200",
-            content = @Content(schema = @Schema(implementation = ResourceResponse.class))
+            content = @Content(schema = @Schema(implementation = byte[].class))
         ),
         @ApiResponse(description = "Not found if the resource does not exist", responseCode = "404")
     }
     )
-    ResponseEntity<ResourceResponse> getResource(
+    ResponseEntity<byte[]> getResource(
         @Parameter(description = "ID of the resource to get") @PathVariable String id
     );
 
@@ -54,10 +54,12 @@ public interface ResourceApi {
         @ApiResponse(
             description = "Successful deletion", responseCode = "200"
         ),
-        @ApiResponse(description = "Internal server error", responseCode = "500")
+        @ApiResponse(description = "Internal server error", responseCode = "500",
+            content = @Content(schema = @Schema(implementation = DeleteResourceBulkResponse.class))
+        ),
     }
     )
-    ResponseEntity<Void> deleteResources(
-        @Parameter(description = "Comma-separated IDs of resources to delete") @RequestParam("id") String ids
+    ResponseEntity<DeleteResourceBulkResponse> deleteResourceBulk(
+        @Parameter(description = "Comma-separated IDs of resources to delete") @RequestParam("ids") String ids
     );
 }

@@ -1,8 +1,8 @@
 package com.epam.learn.resource.util;
 
-import com.epam.learn.resource.model.Resource;
 import com.epam.learn.song.dto.CreateSongMetadataRequest;
-import java.util.UUID;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import lombok.experimental.UtilityClass;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.metadata.TikaCoreProperties;
@@ -11,13 +11,10 @@ import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.xml.sax.ContentHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
 @UtilityClass
 public class MetadataExtractor {
 
-    public static CreateSongMetadataRequest extractMetadata(UUID resourceId, byte[] data) {
+    public static CreateSongMetadataRequest extractMetadata(Integer resourceId, byte[] data) {
         try (InputStream input = new ByteArrayInputStream(data)) {
             ContentHandler handler = new BodyContentHandler();
             Metadata metadata = new Metadata();
