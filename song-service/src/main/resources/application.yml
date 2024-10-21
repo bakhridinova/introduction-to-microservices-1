@@ -1,0 +1,29 @@
+spring:
+  main:
+    banner-mode: "off"
+  application:
+    name: microservices.module1.song
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+  datasource:
+    url: jdbc:postgresql://microservices.module1.song.db:5432/songdb
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: password
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      format_sql: true
+  sql:
+    init:
+      mode: always
+      platform: postgres
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: /
+
+server:
+  port: 8080
