@@ -28,11 +28,11 @@ public class MetadataExtractor {
             String year = metadata.get(TikaCoreProperties.CREATED);
 
             return new CreateSongMetadataRequest(
-                resourceId.toString(),
                 title,
                 artist,
                 album,
                 length,
+                resourceId,
                 year
             );
         } catch (Exception e) {

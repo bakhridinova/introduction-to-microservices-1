@@ -18,6 +18,7 @@ public class Resource {
     @Column(updatable = false, nullable = false)
     private Integer id;
     private byte[] data;
+    private Integer resourceId;
     private String description;
 }
 
