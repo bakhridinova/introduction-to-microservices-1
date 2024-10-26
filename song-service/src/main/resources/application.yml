@@ -2,14 +2,14 @@ spring:
   main:
     banner-mode: "off"
   application:
-    name: microservices.module1.song
+    name: microservices.song
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
-    url: jdbc:postgresql://microservices.module1.song.db:5432/songdb
+    url: jdbc:postgresql://${POSTGRES_SONG_CONTAINER_NAME}:${POSTGRES_SONG_DATABASE_PORT}/${POSTGRES_SONG_DATABASE_NAME}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: password
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
     hibernate:

@@ -2,14 +2,14 @@ spring:
   main:
     banner-mode: "off"
   application:
-    name: microservices.module1.resource
+    name: microservices.resource
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
-    url: jdbc:postgresql://microservices.module1.resource.db:5433/resourcedb
+    url: jdbc:postgresql://${POSTGRES_RESOURCE_CONTAINER_NAME}:${POSTGRES_RESOURCE_DATABASE_PORT}/${POSTGRES_RESOURCE_DATABASE_NAME}
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: password
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
   jpa:
     show-sql: true
     hibernate:
@@ -27,12 +27,11 @@ springdoc:
 
 client:
   song:
-    host: http://songapp
-    port: 8080
+    host: http://song-service
+    port: ${SONG_APP_PORT}
     saveSongMetadataPath: /songs
     getSongMetadataByIdPath: /songs/{id}
     deleteSongMetadataBulkPath: /songs
-
 
 server:
   port: 8081

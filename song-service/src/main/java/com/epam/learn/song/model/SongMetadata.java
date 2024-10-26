@@ -22,4 +22,5 @@ public class SongMetadata {
     private String album;
     private String length;
     private String year;
+    private Integer resourceId;
 }

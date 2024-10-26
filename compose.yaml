@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  song-service:
+    build:
+      context: ${SONG_APP_PATH}
+      dockerfile: Dockerfile
+    container_name: ${SONG_APP_CONTAINER_NAME}
+    depends_on:
+      - song-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_SONG_CONTAINER_NAME: ${POSTGRES_SONG_CONTAINER_NAME}
+      POSTGRES_SONG_DATABASE_PORT: ${POSTGRES_SONG_DATABASE_PORT}
+      POSTGRES_SONG_DATABASE_NAME: ${POSTGRES_SONG_DATABASE_NAME}
+    ports:
+      - "${SONG_APP_PORT}:${SONG_APP_PORT}"
+    networks:
+      - shared_network
+
+  song-db:
+    image: postgres:alpine
+    container_name: ${POSTGRES_SONG_CONTAINER_NAME}
+    environment:
+      POSTGRES_DB: ${POSTGRES_SONG_DATABASE_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: [ "postgres", "-p", "${POSTGRES_SONG_DATABASE_PORT}" ]
+    ports:
+      - "${POSTGRES_SONG_DATABASE_PORT}:${POSTGRES_SONG_DATABASE_PORT}"
+    networks:
+      - shared_network
+
+  resource-service:
+    build:
+      context: ${RESOURCE_APP_PATH}
+      dockerfile: Dockerfile
+    container_name: ${RESOURCE_APP_CONTAINER_NAME}
+    depends_on:
+      - resource-db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      SONG_APP_PORT: ${SONG_APP_PORT}
+      POSTGRES_RESOURCE_CONTAINER_NAME: ${POSTGRES_RESOURCE_CONTAINER_NAME}
+      POSTGRES_RESOURCE_DATABASE_PORT: ${POSTGRES_RESOURCE_DATABASE_PORT}
+      POSTGRES_RESOURCE_DATABASE_NAME: ${POSTGRES_RESOURCE_DATABASE_NAME}
+    ports:
+      - "${RESOURCE_APP_PORT}:${RESOURCE_APP_PORT}"
+    networks:
+      - shared_network
+
+  resource-db:
+    image: postgres:alpine
+    container_name: ${POSTGRES_RESOURCE_CONTAINER_NAME}
+    environment:
+      POSTGRES_DB: ${POSTGRES_RESOURCE_DATABASE_NAME}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    command: ["postgres", "-p", "${POSTGRES_RESOURCE_DATABASE_PORT}"]
+    ports:
+      - "${POSTGRES_RESOURCE_DATABASE_PORT}:${POSTGRES_RESOURCE_DATABASE_PORT}"
+    networks:
+      - shared_network
+
+networks:
+  shared_network:
+    driver: bridge

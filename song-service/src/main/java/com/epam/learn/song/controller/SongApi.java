@@ -1,8 +1,8 @@
 package com.epam.learn.song.controller;
 
+import com.epam.learn.song.dto.CreateSongMetadataRequest;
 import com.epam.learn.song.dto.CreateSongMetadataResponse;
 import com.epam.learn.song.dto.DeleteSongMetadataBulkResponse;
-import com.epam.learn.song.dto.CreateSongMetadataRequest;
 import com.epam.learn.song.dto.SongMetadataResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -60,6 +60,6 @@ public interface SongApi {
     }
     )
     ResponseEntity<DeleteSongMetadataBulkResponse> deleteSongMetadataBulk(
-        @Parameter(description = "Comma-separated IDs of song metadata to delete") @RequestParam("id") String ids
+        @Parameter(description = "Comma-separated IDs of song metadata to delete") @RequestParam("ids") String ids
     );
 }

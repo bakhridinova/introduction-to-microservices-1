@@ -5,7 +5,6 @@ import com.epam.learn.song.dto.CreateSongMetadataRequest;
 import com.epam.learn.song.dto.DeleteSongMetadataBulkResponse;
 import com.epam.learn.song.dto.SongMetadataResponse;
 import java.net.URI;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
