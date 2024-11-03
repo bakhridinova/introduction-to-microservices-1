@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: microservices.eureka
+  main:
+    banner-mode: "off"
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: eureka-server
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  service-url:
+    defaultZone: http://eureka-server:8761/eureka
+logging:
+  level:
+    com.netflix.eureka: OFF
+    com.netflix.discovery: OFF

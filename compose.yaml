@@ -1,13 +1,23 @@
 version: '3.8'
 
 services:
+  eureka-server:
+    build:
+      context: ${EUREKA_SERVER_PATH}
+      dockerfile: Dockerfile
+    container_name: ${EUREKA_SERVER_CONTAINER_NAME}
+    ports:
+      - "${EUREKA_SERVER_PORT}:${EUREKA_SERVER_PORT}"
+    networks:
+      - shared_network
+
   song-service:
     build:
-      context: ${SONG_APP_PATH}
+      context: ${SONG_SERVICE_PATH}
       dockerfile: Dockerfile
-    container_name: ${SONG_APP_CONTAINER_NAME}
     depends_on:
       - song-db
+      - eureka-server
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -15,7 +25,9 @@ services:
       POSTGRES_SONG_DATABASE_PORT: ${POSTGRES_SONG_DATABASE_PORT}
       POSTGRES_SONG_DATABASE_NAME: ${POSTGRES_SONG_DATABASE_NAME}
     ports:
-      - "${SONG_APP_PORT}:${SONG_APP_PORT}"
+      - "${SONG_SERVICE_PORT_1}-${SONG_SERVICE_PORT_2}:${SONG_SERVICE_PORT_1}"
+    deploy:
+      replicas: 2
     networks:
       - shared_network
 
@@ -34,20 +46,22 @@ services:
 
   resource-service:
     build:
-      context: ${RESOURCE_APP_PATH}
+      context: ${RESOURCE_SERVICE_PATH}
       dockerfile: Dockerfile
-    container_name: ${RESOURCE_APP_CONTAINER_NAME}
+    container_name: ${RESOURCE_SERVICE_CONTAINER_NAME}
     depends_on:
       - resource-db
+      - song-service
+      - eureka-server
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      SONG_APP_PORT: ${SONG_APP_PORT}
+      SONG_SERVICE_HOST: http://microservices.song
       POSTGRES_RESOURCE_CONTAINER_NAME: ${POSTGRES_RESOURCE_CONTAINER_NAME}
       POSTGRES_RESOURCE_DATABASE_PORT: ${POSTGRES_RESOURCE_DATABASE_PORT}
       POSTGRES_RESOURCE_DATABASE_NAME: ${POSTGRES_RESOURCE_DATABASE_NAME}
     ports:
-      - "${RESOURCE_APP_PORT}:${RESOURCE_APP_PORT}"
+      - "${RESOURCE_SERVICE_PORT}:${RESOURCE_SERVICE_PORT}"
     networks:
       - shared_network
 

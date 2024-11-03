@@ -1,11 +1,12 @@
 package com.epam.learn.resource.client;
 
-import com.epam.learn.resource.config.SongProperties;
+import com.epam.learn.resource.config.SongClientConfig;
 import com.epam.learn.song.dto.CreateSongMetadataRequest;
 import com.epam.learn.song.dto.DeleteSongMetadataBulkResponse;
 import com.epam.learn.song.dto.SongMetadataResponse;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SongClient {
-    private final SongProperties songProperties;
+    private final SongClientConfig songClientConfig;
     private final RestTemplate restTemplate;
 
     public SongMetadataResponse saveSongMetadata(CreateSongMetadataRequest songCreateRequest) {
-        String path = songProperties.baseUrl() + songProperties.getSaveSongMetadataPath();
+        String path = songClientConfig.getHost() + songClientConfig.getSaveSongMetadataPath();
         RequestEntity<CreateSongMetadataRequest> requestEntity = new RequestEntity<>(
             songCreateRequest, HttpMethod.POST, URI.create(path)
         );
@@ -30,7 +32,7 @@ public class SongClient {
     }
 
     public DeleteSongMetadataBulkResponse deleteSongMetadataBulk(String ids) {
-        String path = songProperties.baseUrl() + songProperties.getDeleteSongMetadataBulkPath();
+        String path = songClientConfig.getHost() + songClientConfig.getDeleteSongMetadataBulkPath();
         URI uri = UriComponentsBuilder.fromUriString(path)
             .queryParam("ids", ids)
             .build()

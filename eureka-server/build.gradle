@@ -1,0 +1,36 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.3.+'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+}
+
+version = '1.0.0'
+group = 'com.epam.learn'
+sourceCompatibility = JavaVersion.VERSION_17
+
+repositories {
+    mavenCentral()
+}
+
+bootJar {
+    mainClass = 'com.epam.learn.eureka.EurekaServerApplication'
+}
+
+ext {
+    springCloudVersion = "2023.0.2"
+}
+
+dependencies {
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-server'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

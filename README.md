@@ -6,6 +6,8 @@
 - [What to do #2](#what-to-do-2)
 - [Sub-task 3: Docker images](#sub-task-3-docker-images)
 - [Sub-task 4: Docker Compose file](#sub-task-4-docker-compose-file)
+- [What to do #3](#what-to-do-3)
+- [Sub-task 5: Service registry](#sub-task-5-service-registry)
 
 ## What to do #1
 
@@ -274,13 +276,11 @@ Make sure the service is still available over HTTP.
     </tr>
 </table>
 
-**Note**
+****Note**
 
 As a database, it is best to use Docker database/storage containers (e.g. [postgres image](https://hub.docker.com/_/postgres)) in the implementation.
 
 ![](images/microservice_architecture_overview.png)
-
-)
 
 ## What to do #2
 
@@ -309,3 +309,15 @@ Possible container options for existing resources:
 - [postgres DB](https://hub.docker.com/_/postgres)
 - [mysql db](https://hub.docker.com/_/mysql)
 - [Local stack (aws emulator)](https://hub.docker.com/r/localstack/localstack)
+
+## What to do #3
+
+In this task you need to choose one of Service registry tool and inject it into your infrastructure.
+Please, find the sample implementation here: [Eureka Example](https://www.javainuse.com/spring/cloud-gateway-eureka)
+
+![](images/service_discovery.png)
+
+## Sub-task 5: Service registry
+
+1) Use Eureka Service Registry ([Service Registration and Discovery](https://spring.io/guides/gs/service-registration-and-discovery/)).
+2) All microservices should be Eureka Clients, and they must be registered with the Eureka Server (made up of the Load Balancer and the Service Registry).

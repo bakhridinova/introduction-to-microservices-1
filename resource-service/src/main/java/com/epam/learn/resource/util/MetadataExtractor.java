@@ -3,6 +3,7 @@ package com.epam.learn.resource.util;
 import com.epam.learn.song.dto.CreateSongMetadataRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 import lombok.experimental.UtilityClass;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.metadata.TikaCoreProperties;
@@ -24,8 +25,9 @@ public class MetadataExtractor {
             String title = metadata.get(TikaCoreProperties.TITLE);
             String artist = metadata.get(TikaCoreProperties.CREATOR);
             String album = metadata.get(TikaCoreProperties.SOURCE);
-            String length = metadata.get("xmpDM:duration");
-            String year = metadata.get(TikaCoreProperties.CREATED);
+            String rawLength = metadata.get("xmpDM:duration");
+            String length = formatDuration(rawLength);
+            String year = parseYear(metadata.get(TikaCoreProperties.CREATED));
 
             return new CreateSongMetadataRequest(
                 title,
@@ -38,5 +40,22 @@ public class MetadataExtractor {
         } catch (Exception e) {
             throw new RuntimeException("Failed to extract metadata", e);
         }
+    }
+
+    private static String formatDuration(String rawDuration) {
+        if (rawDuration != null && !rawDuration.isEmpty()) {
+            long totalSeconds = Double.valueOf(rawDuration).longValue();
+            long minutes = TimeUnit.SECONDS.toMinutes(totalSeconds);
+            long seconds = totalSeconds - TimeUnit.MINUTES.toSeconds(minutes);
+            return String.format("%02d:%02d", minutes, seconds);
+        }
+        return null;
+    }
+
+    private static String parseYear(String rawDate) {
+        if (rawDate != null && rawDate.length() >= 4) {
+            return rawDate.substring(0, 4);
+        }
+        return null;
     }
 }

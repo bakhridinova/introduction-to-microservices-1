@@ -34,7 +34,7 @@ public interface ResourceApi {
         @RequestBody byte[] data
     );
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = "audio/mpeg")
     @Operation(
         summary = "Get a resource by ID", responses = {
         @ApiResponse(

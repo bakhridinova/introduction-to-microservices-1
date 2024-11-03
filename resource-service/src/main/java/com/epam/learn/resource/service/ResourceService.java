@@ -11,8 +11,10 @@ import com.epam.learn.resource.repository.ResourceRepository;
 import com.epam.learn.resource.util.MetadataExtractor;
 import com.epam.learn.song.dto.SongMetadataResponse;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ResourceService {
     private static final int MAX_ALLOWED_IDS_TO_DELETE = 200;
+    private static final Pattern VALID_ID_PATTERN = Pattern.compile("^\\d+$");
 
     private final SongClient songClient;
     private final ResourceRepository resourceRepository;
@@ -38,16 +41,28 @@ public class ResourceService {
     }
 
     public byte[] getResourceById(String id) throws NotFoundException {
-        Resource resource = resourceRepository.findById(Integer.parseInt(id))
+        if (!VALID_ID_PATTERN.matcher(id).matches()) {
+            throw new ValidationException("Invalid ID format: ID should be a positive integer");
+        }
+
+        int idAsInteger = Integer.parseInt(id);
+        if (idAsInteger == 0) {
+            throw new ValidationException("Invalid ID format: ID should be a positive integer");
+        }
+
+        Resource resource = resourceRepository.findById(idAsInteger)
             .orElseThrow(() -> new NotFoundException("Resource not found with id: " + id));
         return resource.getData();
     }
 
     @Transactional
     public DeleteResourceBulkResponse deleteResources(String ids) {
-        List<Integer> idList = Arrays.stream(ids.split(","))
-            .map(Integer::parseInt)
-            .toList();
+        List<Integer> idList = new ArrayList<>();
+        try {
+            Arrays.stream(ids.split(",")).forEach(id -> idList.add(Integer.parseInt(id)));
+        } catch (NumberFormatException e) {
+            throw new ValidationException("Invalid ID format: IDs should be integers");
+        }
 
         if (idList.size() > MAX_ALLOWED_IDS_TO_DELETE) {
             throw new ValidationException("Number of ids should not exceed " + MAX_ALLOWED_IDS_TO_DELETE);
