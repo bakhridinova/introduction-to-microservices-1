@@ -13,7 +13,7 @@ spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
-    url: jdbc:postgresql://${POSTGRES_SONG_CONTAINER_NAME}:${POSTGRES_SONG_DATABASE_PORT}/${POSTGRES_SONG_DATABASE_NAME}
+    url: jdbc:postgresql://${POSTGRES_SONG_CONTAINER_NAME}:${POSTGRES_DATABASE_PORT}/${POSTGRES_SONG_DATABASE_NAME}
     driver-class-name: org.postgresql.Driver
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
