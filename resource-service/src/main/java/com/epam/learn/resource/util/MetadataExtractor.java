@@ -1,6 +1,6 @@
 package com.epam.learn.resource.util;
 
-import com.epam.learn.song.dto.CreateSongMetadataRequest;
+import com.epam.learn.resource.dto.CreateSongMetadataRequest;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;

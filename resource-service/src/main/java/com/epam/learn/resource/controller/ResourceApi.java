@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,10 @@ public interface ResourceApi {
             description = "The resource", responseCode = "200",
             content = @Content(schema = @Schema(implementation = byte[].class))
         ),
-        @ApiResponse(description = "Not found if the resource does not exist", responseCode = "404")
+        @ApiResponse(
+            description = "Not found if the resource does not exist", responseCode = "404",
+            content = @Content(schema = @Schema(implementation = ErrorResponse.class))
+        )
     }
     )
     ResponseEntity<byte[]> getResource(

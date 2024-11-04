@@ -1,9 +1,9 @@
 package com.epam.learn.resource.client;
 
 import com.epam.learn.resource.config.SongClientConfig;
-import com.epam.learn.song.dto.CreateSongMetadataRequest;
-import com.epam.learn.song.dto.DeleteSongMetadataBulkResponse;
-import com.epam.learn.song.dto.SongMetadataResponse;
+import com.epam.learn.resource.dto.CreateSongMetadataRequest;
+import com.epam.learn.resource.dto.DeleteSongMetadataBulkResponse;
+import com.epam.learn.resource.dto.SongMetadataResponse;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

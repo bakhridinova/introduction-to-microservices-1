@@ -20,12 +20,11 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       format_sql: true
   sql:
     init:
-      mode: always
-      platform: postgres
+      mode: never
 
 eureka:
   client:

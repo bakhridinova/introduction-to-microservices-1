@@ -20,12 +20,14 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       format_sql: true
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
   sql:
     init:
-      mode: always
-      platform: postgres
+      mode: never
 
 eureka:
   client:

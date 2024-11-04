@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SongService {
-    private static final int MAX_ALLOWED_IDS_TO_DELETE = 200;
+    private static final int MAX_ALLOWED_IDS_LENGTH = 200;
     private static final Pattern VALID_ID_PATTERN = Pattern.compile("^\\d+$");
 
     private final ObjectMapper objectMapper;
@@ -52,6 +52,10 @@ public class SongService {
 
     @Transactional
     public DeleteSongMetadataBulkResponse deleteSongs(String ids) {
+        if (ids.length() > MAX_ALLOWED_IDS_LENGTH) {
+            throw new ValidationException("The length of ids should not exceed " + MAX_ALLOWED_IDS_LENGTH);
+        }
+
         List<Integer> idList = new ArrayList<>();
         try {
             Arrays.stream(ids.split(",")).forEach(id -> idList.add(Integer.parseInt(id)));
@@ -59,9 +63,6 @@ public class SongService {
             throw new ValidationException("Invalid ID format: IDs should be integers");
         }
 
-        if (idList.size() > MAX_ALLOWED_IDS_TO_DELETE) {
-            throw new ValidationException("Number of ids should not exceed " + MAX_ALLOWED_IDS_TO_DELETE);
-        }
         songRepository.deleteAllById(idList);
         return new DeleteSongMetadataBulkResponse(idList);
     }

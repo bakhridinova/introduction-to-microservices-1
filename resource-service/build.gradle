@@ -41,9 +41,6 @@ dependencies {
     // Swagger-UI
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${springdocVerison}"
 
-    // Client
-    implementation group: 'com.epam.learn', name: 'microservices.song', version: "${songClientVersion}"
-
     // Tika
     implementation group: 'org.apache.tika', name: 'tika-core', version: "${apacheTikaVersion}"
     implementation group: 'org.apache.tika', name: 'tika-parsers', version: "${apacheTikaVersion}"

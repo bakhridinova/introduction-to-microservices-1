@@ -8,8 +8,6 @@ services:
     container_name: ${EUREKA_SERVER_CONTAINER_NAME}
     ports:
       - "${EUREKA_SERVER_PORT}:${EUREKA_SERVER_PORT}"
-    networks:
-      - shared_network
 
   song-service:
     build:
@@ -28,8 +26,6 @@ services:
       - "${SONG_SERVICE_PORT_1}-${SONG_SERVICE_PORT_2}:${SONG_SERVICE_PORT_1}"
     deploy:
       replicas: 2
-    networks:
-      - shared_network
 
   song-db:
     image: postgres:alpine
@@ -39,10 +35,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     command: [ "postgres", "-p", "${POSTGRES_SONG_DATABASE_PORT}" ]
-    ports:
-      - "${POSTGRES_SONG_DATABASE_PORT}:${POSTGRES_SONG_DATABASE_PORT}"
-    networks:
-      - shared_network
+    volumes:
+      - ${INIT_SCRIPTS_SONG_DB}:/docker-entrypoint-initdb.d
 
   resource-service:
     build:
@@ -62,8 +56,6 @@ services:
       POSTGRES_RESOURCE_DATABASE_NAME: ${POSTGRES_RESOURCE_DATABASE_NAME}
     ports:
       - "${RESOURCE_SERVICE_PORT}:${RESOURCE_SERVICE_PORT}"
-    networks:
-      - shared_network
 
   resource-db:
     image: postgres:alpine
@@ -73,11 +65,5 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     command: ["postgres", "-p", "${POSTGRES_RESOURCE_DATABASE_PORT}"]
-    ports:
-      - "${POSTGRES_RESOURCE_DATABASE_PORT}:${POSTGRES_RESOURCE_DATABASE_PORT}"
-    networks:
-      - shared_network
-
-networks:
-  shared_network:
-    driver: bridge
+    volumes:
+      - ${INIT_SCRIPTS_RESOURCE_DB}:/docker-entrypoint-initdb.d
