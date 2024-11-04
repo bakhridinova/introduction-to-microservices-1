@@ -36,8 +36,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${INIT_SCRIPTS_SONG_DB}:/docker-entrypoint-initdb.d
-    ports:
-      - "${POSTGRES_DATABASE_PORT}:${POSTGRES_DATABASE_PORT}"
 
   resource-service:
     build:
@@ -67,5 +65,3 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ${INIT_SCRIPTS_RESOURCE_DB}:/docker-entrypoint-initdb.d
-    ports:
-      - "${POSTGRES_DATABASE_PORT}:${POSTGRES_DATABASE_PORT}"
